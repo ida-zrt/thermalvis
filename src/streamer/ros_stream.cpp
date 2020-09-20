@@ -306,7 +306,7 @@ void streamerNode::handle_info(const sensor_msgs::CameraInfoConstPtr& info_msg) 
 	original_bx = info_msg->binning_x;
 	original_by = info_msg->binning_y;
 	
-	if (std::abs(image_time.toNSec() - info_time.toNSec()) < configData.soft_diff_limit) {
+	if (std::fabs(image_time.toNSec() - info_time.toNSec()) < configData.soft_diff_limit) {
 		image_time = dodgeTime;
 		act_on_image();
 	}
@@ -380,7 +380,7 @@ void streamerNode::handle_image(const sensor_msgs::ImageConstPtr& msg_ptr) {
 	cv_ptr = cv_bridge::toCvCopy(msg_ptr, enc::BGR8); // For some reason it reads as BGR, not gray
 	
 	if (configData.syncMode == SYNCMODE_SOFT) {
-		if (std::abs(image_time.toNSec() - info_time.toNSec()) < configData.soft_diff_limit) {
+		if (std::fabs(image_time.toNSec() - info_time.toNSec()) < configData.soft_diff_limit) {
 			image_time = dodgeTime;
 			act_on_image();
 		}
