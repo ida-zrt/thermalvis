@@ -2,9 +2,12 @@
  *  \brief	(probably an obsolete file)
 */
 
-#ifdef _BUILD_FOR_ROS_
+// #ifdef _BUILD_FOR_ROS_
 
 #include "core/initialization.hpp"
+#include "opencv2/opencv.hpp"
+#include "opencv2/xfeatures2d.hpp"
+#include "opencv2/features2d.hpp"
 
 bool initializationData::obtainStartingData(ros::NodeHandle& nh) {
 	
@@ -119,9 +122,11 @@ void initializationData::initializeDescriptors(cv::Ptr<cv::DescriptorExtractor> 
 			ROS_ERROR("SIFT has been deactivated due to copyright protection!");
 			//desc[iii] = new SiftDescriptorExtractor( );
 		} else if (descriptor[iii] == "BRIEF") {
-			desc[iii] = new cv::BriefDescriptorExtractor( );
+			// desc[iii] = new cv::BriefDescriptorExtractor( );
+			desc[iii] = cv::xfeatures2d::BriefDescriptorExtractor::create( );
 		} else if (descriptor[iii] == "ORB") {
-			desc[iii] = new cv::OrbDescriptorExtractor( );
+			// desc[iii] = new cv::OrbDescriptorExtractor( );
+			desc[iii] = cv::ORB::create( );
 		}
 	}
 	
@@ -134,18 +139,23 @@ void initializationData::initializeDetectors(cv::Ptr<cv::FeatureDetector> *det) 
 			ROS_ERROR("SURF has been deactivated due to copyright protection!");
 			// det[iii] = new SurfFeatureDetector( sensitivity[iii] );
 		} else if (detector[iii] == "FAST") {
-			det[iii] = new cv::FastFeatureDetector( sensitivity[iii] );
+			// det[iii] = new cv::FastFeatureDetector( sensitivity[iii] );
+			det[iii] = cv::FastFeatureDetector::create( sensitivity[iii] );
 		} else if (detector[iii] == "GFTT") {
-			det[iii] = new cv::GoodFeaturesToTrackDetector( MAXIMUM_FEATURES_PER_DETECTOR, sensitivity[iii], 1.0, 3, false );
+			// det[iii] = new cv::GoodFeaturesToTrackDetector( MAXIMUM_FEATURES_PER_DETECTOR, sensitivity[iii], 1.0, 3, false );
+			det[iii] = cv::GFTTDetector::create( MAXIMUM_FEATURES_PER_DETECTOR, sensitivity[iii], 1.0, 3, false );
 		} else if (detector[iii] == "STAR") {
-			det[iii] = new cv::StarFeatureDetector( 16, sensitivity[iii] );
+			// det[iii] = new cv::StarFeatureDetector( 16, sensitivity[iii] );
+			det[iii] = cv::xfeatures2d::StarDetector::create( 16, sensitivity[iii] );
 		} else if (detector[iii] == "ORB") {
-			det[iii] = new cv::OrbFeatureDetector( MAXIMUM_FEATURES_PER_DETECTOR );
+			// det[iii] = new cv::OrbFeatureDetector( MAXIMUM_FEATURES_PER_DETECTOR );
+			det[iii] = cv::ORB::create( MAXIMUM_FEATURES_PER_DETECTOR );
 		} else if (detector[iii] == "HARRIS") {
-			det[iii] = new cv::GoodFeaturesToTrackDetector( MAXIMUM_FEATURES_PER_DETECTOR, sensitivity[iii], 1.0, 3, true );
+			// det[iii] = new cv::GoodFeaturesToTrackDetector( MAXIMUM_FEATURES_PER_DETECTOR, sensitivity[iii], 1.0, 3, true );
+			det[iii] = cv::GFTTDetector::create( MAXIMUM_FEATURES_PER_DETECTOR, sensitivity[iii], 1.0, 3, true );
 		}
 	}
 	
 }
 
-#endif
+// #endif

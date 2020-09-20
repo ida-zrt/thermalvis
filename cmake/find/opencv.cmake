@@ -1,9 +1,12 @@
 SET(USE_OPENCV TRUE)
 
-SET(OPENCV_MINVERSION "2.4.8")
+SET(OPENCV_MINVERSION "3")
 
 If(BUILD_FOR_ROS)
-        find_package(OpenCV ${OPENCV_MINVERSION} REQUIRED)
+		find_package(OpenCV ${OPENCV_MINVERSION} REQUIRED)
+		IF(OpenCV_VERSION_MAJOR GREATER 2)
+			add_definitions(-D_OPENCV_VERSION_3_PLUS_)
+		ENDIF()
         SET(opencv_FOUND TRUE)
         SET(opencv_LIBRARIES ${OpenCV_LIBS})
         include_directories(${OpenCV_INCLUDE_DIRS})
