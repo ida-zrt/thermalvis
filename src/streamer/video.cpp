@@ -1,6 +1,16 @@
 /*! \file	video.cpp
  *  \brief	Definitions for managing video sources and formats.
 */
+#define PIX_FMT_RGB24 AV_PIX_FMT_RGB24
+#define PIX_FMT_YUYV422 AV_PIX_FMT_YUYV422
+#define PIX_FMT_YUV422P AV_PIX_FMT_YUV422P
+
+#define avcodec_alloc_frame av_frame_alloc
+
+#define PixelFormat AVPixelFormat
+
+#define CODEC_ID_RAWVIDEO AV_CODEC_ID_RAWVIDEO
+#define CODEC_ID_MJPEG AV_CODEC_ID_MJPEG
 
 #if !defined(_IS_WINDOWS_) && defined(_AVLIBS_AVAILABLE_)
 	
